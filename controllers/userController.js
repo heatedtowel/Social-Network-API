@@ -20,15 +20,13 @@ module.exports = {
   },
 
   updateUser(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
+    User.findOneAndUpdate({ _id: req.params.userId },
       { $set: req.body },
       {
         runValidators: true,
         new: true
-      }
-    )
-      .then((user) => !user ? res.status(404).json({ message: 'No video with this id!' }) : res.json(user))
+      })
+      .then((user) => !user ? res.status(404).json({ message: 'No user found with this id.' }) : res.json(user))
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
@@ -36,15 +34,8 @@ module.exports = {
   },
 
   removeUser(req, res) {
-    console.log(User.findOneAndRemove)
     User.findOneAndRemove({ _id: req.params.userId })
-      .then((user) =>
-        !user
-          ? res
-            .status(404)
-            .json({ message: 'No user with this id!' })
-          : res.json({ message: 'User successfully deleted!' })
-      )
+      .then((user) => !user ? res.status(404).json({ message: 'No user with this id!' }) : res.json({ message: 'User successfully deleted!' }))
       .catch((err) => res.status(500).json(err));
   }
 }

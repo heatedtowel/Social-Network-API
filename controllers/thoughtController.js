@@ -7,7 +7,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   getSingleThought(req, res) {
-    Thought.findOne({ _id: req.params.videoId })
+    Thought.findOne({ _id: req.params.thoughtId })
       .then((video) =>
         !video
           ? res.status(404).json({ message: 'No video with that ID' })
@@ -39,13 +39,13 @@ module.exports = {
   },
   updateThought(req, res) {
     Thought.findOneAndUpdate(
-      { _id: req.params.videoId },
+      { _id: req.params.thoughtId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
       .then((video) =>
         !video
-          ? res.status(404).json({ message: 'No video with this id!' })
+          ? res.status(404).json({ message: 'No thought with this id!' })
           : res.json(video)
       )
       .catch((err) => {
@@ -53,14 +53,15 @@ module.exports = {
         res.status(500).json(err);
       });
   },
+  
   deleteThought(req, res) {
-    Thought.findOneAndRemove({ _id: req.params.videoId })
+    Thought.findOneAndRemove({ _id: req.params.thoughtId })
       .then((video) =>
         !video
-          ? res.status(404).json({ message: 'No video with this id!' })
+          ? res.status(404).json({ message: 'No thought with this id!' })
           : User.findOneAndUpdate(
-              { videos: req.params.videoId },
-              { $pull: { videos: req.params.videoId } },
+              { thought: req.params.thoughtId },
+              { $pull: { thought: req.params.thoughtId } },
               { new: true }
             )
       )

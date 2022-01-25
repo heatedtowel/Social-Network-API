@@ -22,9 +22,9 @@ router
   .delete(deleteThought);
 
 // /api/videos/:videoId/responses
-router.route('/:videoId/responses').post(addVideoResponse);
+// router.route('/:thoughtId/responses').post(addVideoResponse);
 
 // /api/videos/:videoId/responses/:responseId
-router.route('/:videoId/responses/:responseId').delete(removeVideoResponse);
+// router.route('/:thoughtId/reactions/:reactionId').delete(removeVideoResponse);
 
 module.exports = router;
