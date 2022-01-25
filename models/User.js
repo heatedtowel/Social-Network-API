@@ -1,4 +1,4 @@
-const { Schema, model, type } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 const { isEmail } = require('validator');
 
 const userSchema = new Schema(
@@ -23,7 +23,7 @@ const userSchema = new Schema(
     ],
     friends: [
       {
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'user',
       },
     ],
@@ -39,7 +39,7 @@ const userSchema = new Schema(
 userSchema
   .virtual('friendCount')
   .get(function () {
-    return this.friends;
+    return this.friends.length;
   })
 
 const User = model('user', userSchema);
