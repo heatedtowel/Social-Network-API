@@ -7,7 +7,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   getSingleThought(req, res) {
-    Video.findOne({ _id: req.params.videoId })
+    Thought.findOne({ _id: req.params.videoId })
       .then((video) =>
         !video
           ? res.status(404).json({ message: 'No video with that ID' })
@@ -38,7 +38,7 @@ module.exports = {
       });
   },
   updateThought(req, res) {
-    Video.findOneAndUpdate(
+    Thought.findOneAndUpdate(
       { _id: req.params.videoId },
       { $set: req.body },
       { runValidators: true, new: true }
@@ -54,7 +54,7 @@ module.exports = {
       });
   },
   deleteThought(req, res) {
-    Video.findOneAndRemove({ _id: req.params.videoId })
+    Thought.findOneAndRemove({ _id: req.params.videoId })
       .then((video) =>
         !video
           ? res.status(404).json({ message: 'No video with this id!' })
@@ -70,34 +70,6 @@ module.exports = {
               .status(404)
               .json({ message: 'Video created but no user with this id!' })
           : res.json({ message: 'Video successfully deleted!' })
-      )
-      .catch((err) => res.status(500).json(err));
-  },
-  // Add a video response
-  addVideoResponse(req, res) {
-    Video.findOneAndUpdate(
-      { _id: req.params.videoId },
-      { $addToSet: { responses: req.body } },
-      { runValidators: true, new: true }
-    )
-      .then((video) =>
-        !video
-          ? res.status(404).json({ message: 'No video with this id!' })
-          : res.json(video)
-      )
-      .catch((err) => res.status(500).json(err));
-  },
-  // Remove video response
-  removeVideoResponse(req, res) {
-    Video.findOneAndUpdate(
-      { _id: req.params.videoId },
-      { $pull: { reactions: { responseId: req.params.responseId } } },
-      { runValidators: true, new: true }
-    )
-      .then((video) =>
-        !video
-          ? res.status(404).json({ message: 'No video with this id!' })
-          : res.json(video)
       )
       .catch((err) => res.status(500).json(err));
   },
