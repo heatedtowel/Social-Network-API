@@ -42,7 +42,7 @@ module.exports = {
   createFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $push: { friends: req.params.friendId } },
+      { $addToSet: { friends: req.body } },
       { new: true }
     )
       .then((friend) => !friend ? res.status(404).json({ message: 'No friend found' }) : res.json('Friend added 🎉'))
@@ -53,13 +53,13 @@ module.exports = {
   },
 
   deleteFriend(req, res) {
-    User.findOneAndRemove({ _id: req.params.friendId },
+    User.findOneAndRemove({ _id: req.params.userId },
       { $pull: { friends: req.params.friendId } },
       { new: true }
     )
-      .then((friend) => !friend ? res.status(404).json({ message: 'No friend found' }) : res.json('Friend added 🎉'))
+      .then((friend) => !friend ? res.status(404).json({ message: 'Could not delete friend' }) : res.json('Friend Deleted 🎉'))
       .catch((err) => {
-        console.log(err);
+        console.log("err", err);
         res.status(500).json(err);
       });
   }
