@@ -3,7 +3,10 @@ const Reaction = require('./Reaction');
 
 const thoughtSchema = new Schema(
   {
-    username: String,
+    username: {
+      type: String,
+      required: true
+    },
     thoughtText: {
       type: String,
       required: true,
@@ -14,7 +17,7 @@ const thoughtSchema = new Schema(
       type: Date,
       default: Date.now,
     },
-    reactions:[Reaction]
+    reactions: [Reaction]
   },
   {
     toJSON: {
@@ -30,6 +33,6 @@ thoughtSchema
     return this.reactions.length;
   });
 
-const Thought = model('thought' , thoughtSchema)
+const Thought = model('thought', thoughtSchema)
 
 module.exports = Thought;

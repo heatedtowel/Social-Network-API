@@ -48,6 +48,18 @@ module.exports = {
       .then((friend) => !friend ? res.status(404).json({ message: 'No friend found' }) : res.json('Friend added 🎉'))
       .catch((err) => {
         console.log(err);
+        res.status(500).json(err.message);
+      });
+  },
+
+  deleteFriend(req, res) {
+    User.findOneAndRemove({ _id: req.params.friendId },
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    )
+      .then((friend) => !friend ? res.status(404).json({ message: 'No friend found' }) : res.json('Friend added 🎉'))
+      .catch((err) => {
+        console.log(err);
         res.status(500).json(err);
       });
   }
